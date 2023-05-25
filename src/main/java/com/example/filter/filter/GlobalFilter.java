@@ -1,6 +1,7 @@
 package com.example.filter.filter;
 
 import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 @Slf4j
-@Component
+@WebFilter(urlPatterns = "/api/user/*")
 public class GlobalFilter implements Filter {
 
     @Override
@@ -29,13 +30,13 @@ public class GlobalFilter implements Filter {
         //후처리
         //req
         String reqContent = new String(httpServletRequest.getContentAsByteArray());
-        log.info("response url : {}, responseBody", url, reqContent);
+        log.info("response url : {}, responseBody : {}", url, reqContent);
 
         String resContent = new String(httpServletResponse.getContentAsByteArray());
         int httpStatus = httpServletResponse.getStatus();
 
         httpServletResponse.copyBodyToResponse();
 
-        log.info("response status : {}, responseBody", httpStatus, resContent);
+        log.info("response status : {}, responseBody : {}", httpStatus, resContent);
     }
 }
